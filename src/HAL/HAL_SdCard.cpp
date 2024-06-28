@@ -2,12 +2,15 @@
 #include "SPI.h"
 #include "SD.h"
 
+static bool g_sd_ready = false;
+static uint64_t g_cardSize = 0;
+
 bool HAL::SD_Init()
 {
     // pinMode(CONFIG_SD_DET_PIN, INPUT);
 
-    SPIClass* sd_spi = new SPIClass(HSPI); // another SPI
-    if (!SD.begin(4, *sd_spi, 40000000)) // SD-Card SS pin is 15
+    SPIClass* sd_spi = new SPIClass(VSPI); // another SPI
+    if (!SD.begin(4, *sd_spi)) // SD-Card SS pin is 15
     {
         Serial.println("Card Mount Failed");
         return false;
@@ -38,17 +41,19 @@ bool HAL::SD_Init()
     uint64_t cardSize = SD.cardSize() / (1024 * 1024);
     Serial.printf("SD Card Size: %lluMB\n", cardSize);
 
+    g_sd_ready = true;
+    g_cardSize = cardSize;
     return true;
 }
 
 bool HAL::SD_GetReady()
 {
-    return true;//!digitalRead(CONFIG_SD_DET_PIN);
+    return g_sd_ready;//!digitalRead(CONFIG_SD_DET_PIN);
 }
 
 float HAL::SD_GetCardSizeMB()
 {
-    return 32 * 1024;
+    return g_cardSize;
 }
 
 static void SD_Check(bool isInsert)

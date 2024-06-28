@@ -39,7 +39,7 @@ void TaskLvglUpdate(void* parameter)
 void Port_Init()
 {
     lv_init();
-    lv_port_disp_init(&(m5.Lcd));
+    lv_port_disp_init();
     lv_port_indev_init();
     lv_fs_if_init();
 

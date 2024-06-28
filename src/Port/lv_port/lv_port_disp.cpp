@@ -18,24 +18,15 @@ void my_print(lv_log_level_t level, const char* file, uint32_t line, const char*
 }
 #endif
 
-/**
-  * @brief  ��Ļˢ�»ص�����
-  * @param  disp:��Ļ������ַ
-  * @param  area:ˢ������
-  * @param  color_p:ˢ�»�������ַ
-  * @retval ��
-  */
 static void disp_flush_cb(lv_disp_drv_t* disp, const lv_area_t* area, lv_color_t* color_p)
 {
-    SCREEN_CLASS* screen = (SCREEN_CLASS*) disp->user_data;
-
     int32_t w = (area->x2 - area->x1 + 1);
     int32_t h = (area->y2 - area->y1 + 1);
 
-    screen->startWrite();
-    screen->setAddrWindow(area->x1, area->y1, w, h);
-    screen->pushColors((uint16_t*) (&color_p->full), w * h, true);
-    screen->endWrite();
+    M5.Lcd.startWrite();
+    M5.Lcd.setAddrWindow(area->x1, area->y1, w, h);
+    M5.Lcd.pushColors((uint16_t*) (&color_p->full), w * h, true);
+    M5.Lcd.endWrite();
 
     lv_disp_flush_ready(disp);
 }
@@ -45,23 +36,17 @@ static void disp_wait_cb(lv_disp_drv_t* disp_drv)
 //    __wfi();
 }
 
-/**
-  * @brief  ��Ļ��ʼ��
-  * @param  ��
-  * @retval ��
-  */
-void lv_port_disp_init(SCREEN_CLASS* scr)
+void lv_port_disp_init()
 {
 #if LV_USE_LOG
     lv_log_register_print_cb(
         reinterpret_cast<lv_log_print_g_cb_t>(my_print)); /* register print function for debugging */
 #endif
     /* Move the malloc process to Init() to make sure that the largest heap can be used for this buffer.
-     *
+     */
     lv_disp_buf_p = static_cast<lv_color_t*>(malloc(DISP_BUF_SIZE * sizeof(lv_color_t)));
     if (lv_disp_buf_p == nullptr)
         LV_LOG_WARN("lv_port_disp_init malloc failed!\n");
-    */
 
     lv_disp_draw_buf_init(&disp_buf, lv_disp_buf_p, nullptr, DISP_BUF_SIZE);
 
@@ -72,6 +57,5 @@ void lv_port_disp_init(SCREEN_CLASS* scr)
     disp_drv.flush_cb = disp_flush_cb;
     disp_drv.wait_cb = disp_wait_cb;
     disp_drv.draw_buf = &disp_buf;
-    disp_drv.user_data = scr;
     lv_disp_drv_register(&disp_drv);
 }

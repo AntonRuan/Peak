@@ -24,10 +24,10 @@
 #define __VERSION_H
 
 /* Firmware Version */
-#define VERSION_FIRMWARE_NAME   "[littleVisual]"
+#define VERSION_FIRMWARE_NAME   "[M5Stack]"
 #define VERSION_SOFTWARE        "v1.0"
-#define VERSION_HARDWARE        "v1.1"
-#define VERSION_AUTHOR_NAME     "PZH"
+#define VERSION_HARDWARE        "v2.6"
+#define VERSION_AUTHOR_NAME     "AR"
 
 /* Number to string macro */
 #define _VERSION_NUM_TO_STR_(n)  #n
@@ -50,7 +50,7 @@
 //#  include "SdFat.h"
 #include "FS.h"
 #include "SD.h"
-#  define VERSION_FILESYSTEM    "SDFAT v" VERSION_NUM_TO_STR(SD_FAT_VERSION)
+#  define VERSION_FILESYSTEM    "SDFAT"
 #else
 #  define VERSION_FILESYSTEM    "STDC"
 #endif

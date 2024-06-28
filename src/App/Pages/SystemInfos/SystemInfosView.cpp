@@ -110,7 +110,6 @@ void SystemInfosView::Create(lv_obj_t* root)
 		"Version"
 	);
 
-	
 	Group_Init();
 }
 
@@ -303,10 +302,10 @@ void SystemInfosView::SetBattery(
 	lv_label_set_text_fmt(
 		ui.battery.labelData,
 		"%d%%\n"
-		"%0.2fV\n"
+		"3.7V\n"
 		"%s",
 		usage,
-		voltage,
+		//voltage
 		state
 	);
 }

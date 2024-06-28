@@ -41,6 +41,7 @@ void App_Init()
 
     manager.Install("Template", "Pages/Template");
     manager.Install("SystemInfos", "Pages/SystemInfos");
+    manager.Install("Scene3D", "Pages/Scene3D");
     manager.Install("Startup", "Pages/Startup");
 
     manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP, 500);

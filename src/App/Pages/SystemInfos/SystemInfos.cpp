@@ -94,7 +94,7 @@ void SystemInfos::Update()
 	int usage = 0;
 	float voltage = 0;
 	Model.GetBatteryInfo(&usage, &voltage, buf, sizeof(buf));
-	// View.SetBattery(usage, voltage, buf);
+	View.SetBattery(usage, voltage, buf);
 
 	/* Storage */
 	bool detect;

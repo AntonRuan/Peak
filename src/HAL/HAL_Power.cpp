@@ -1,4 +1,5 @@
 #include "HAL/HAL.h"
+#include <M5Stack.h>
 
 /*上一次操作时间(ms)*/
 static uint32_t Power_LastHandleTime = 0;
@@ -43,7 +44,7 @@ void HAL::Power_Init()
     uint64_t time = millis();
     while (millis() - time < 1000)
     {
-        HAL::BT_Update();
+        // HAL::BT_Update();
         delay(100);
     }
     // digitalWrite(CONFIG_POWER_EN_PIN, HIGH);
@@ -58,7 +59,7 @@ void HAL::Power_Init()
 
 static void Power_ADC_TrigUpdate()
 {
-    Power_ADCValue = 0;//analogRead(CONFIG_BAT_DET_PIN);
+    Power_ADCValue = M5.Power.getBatteryLevel();//analogRead(CONFIG_BAT_DET_PIN);
 }
 
 /**
@@ -137,31 +138,32 @@ void HAL::Power_Update()
 
 void HAL::Power_GetInfo(Power_Info_t* info)
 {
-    uint32_t sum = Power_ADCValue;
-    for (int i = 9; i > 0; i--)
-    {
-        Power_ADCValue_last[i] = Power_ADCValue_last[i - 1];
-        sum += Power_ADCValue_last[i - 1];
-    }
-    Power_ADCValue_last[0] = Power_ADCValue;
+    // uint32_t sum = Power_ADCValue;
+    // for (int i = 9; i > 0; i--)
+    // {
+    //     Power_ADCValue_last[i] = Power_ADCValue_last[i - 1];
+    //     sum += Power_ADCValue_last[i - 1];
+    // }
+    // Power_ADCValue_last[0] = Power_ADCValue;
 
-    int voltage = map(
-        sum / 10,
-        0, 4095,
-        0, 3300
-    );
+    // int voltage = map(
+    //     sum / 10,
+    //     0, 4095,
+    //     0, 3300
+    // );
 
-    voltage *= 2;
+    // voltage *= 2;
 
-    __LimitValue(voltage, BATT_MIN_VOLTAGE, BATT_MAX_VOLTAGE);
+    // __LimitValue(voltage, BATT_MIN_VOLTAGE, BATT_MAX_VOLTAGE);
 
-    int usage = map(
-        voltage,
-        BATT_MIN_VOLTAGE, BATT_MAX_VOLTAGE,
-        0, 100
-    );
+    // int usage = map(
+    //     voltage,
+    //     BATT_MIN_VOLTAGE, BATT_MAX_VOLTAGE,
+    //     0, 100
+    // );
+    int usage = Power_ADCValue;
 
     info->usage = usage;
-    info->isCharging = usage != 100 && 0;//!digitalRead(CONFIG_BAT_CHG_DET_PIN);
-    info->voltage = voltage;
+    info->isCharging = M5.Power.isCharging();//!digitalRead(CONFIG_BAT_CHG_DET_PIN);
+    info->voltage = 3700;
 }
