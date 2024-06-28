@@ -25,10 +25,10 @@
 
 #include "App/Configs/Config.h"
 #include "lvgl.h"
-#include "TFT_eSPI.h"
+#include <M5Stack.h>
 
 
-typedef TFT_eSPI SCREEN_CLASS;
+typedef M5Display SCREEN_CLASS;
 
 void Port_Init();
 void DisplayFault_Init(SCREEN_CLASS* scr);

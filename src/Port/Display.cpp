@@ -36,24 +36,10 @@ void TaskLvglUpdate(void* parameter)
     }
 }
 
-
-/**
-  * @brief  ��ʾ��ʼ��
-  * @param  ��
-  * @retval ��
-  */
 void Port_Init()
 {
-    static SCREEN_CLASS screen;
-
-    /* ��Ļ��ʼ�� */
-    screen.begin();
-    screen.setRotation(1);
-    screen.fillScreen(TFT_BLACK);
-
-    /* lvgl��ʼ�� */
     lv_init();
-    lv_port_disp_init(&screen);
+    lv_port_disp_init(&(m5.Lcd));
     lv_port_indev_init();
     lv_fs_if_init();
 
@@ -66,6 +52,5 @@ void Port_Init()
         configMAX_PRIORITIES - 1,
         &handleTaskLvgl);
 
-    /* ���⽥�� */
     // HAL::Backlight_SetGradual(500, 1000);
 }

@@ -91,10 +91,10 @@ void SystemInfos::Update()
 	View.SetIMU(buf);
 
 	/* Power */
-	int usage;
-	float voltage;
+	int usage = 0;
+	float voltage = 0;
 	Model.GetBatteryInfo(&usage, &voltage, buf, sizeof(buf));
-	View.SetBattery(usage, voltage, buf);
+	// View.SetBattery(usage, voltage, buf);
 
 	/* Storage */
 	bool detect;
@@ -137,5 +137,5 @@ void SystemInfos::onEvent(lv_event_t* event)
 		}
 	}
 
- 
+
 }
